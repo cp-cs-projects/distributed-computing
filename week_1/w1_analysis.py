@@ -27,15 +27,16 @@ def analyze_data(start, end):
     start_counter = perf_counter_ns()
 
     with open('2022_place_canvas_history.csv', 'r') as csvfile:
+        count = 0 
+        
         csvreader = csv.reader(csvfile)
         next(csvreader) # skip header
 
         max_color = ('', 0)
         max_pixel = ('', 0)
 
-        count = 0
         for row in csvreader:
-            row_time = datetime.strptime(row[0].split(' UTC')[0], '%Y-%m-%d %H:%M:%S.%f')
+            row_time = datetime.strptime(row[0][:-4].split(".")[0],'%Y-%m-%d %H:%M:%S')
             
             # Skip rows outside the timeframe
             if row_time < start_dt:

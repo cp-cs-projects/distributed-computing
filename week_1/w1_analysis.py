@@ -1,7 +1,7 @@
 import sys
 import csv
-import heapq
 from time import perf_counter_ns
+from datetime import datetime
 
 '''
 - analyze (start, end) : most placed color , most placed pixel location
@@ -19,38 +19,56 @@ def analyze_data(start, end):
     color_freq = {}
     pixel_freq = {}
 
+    start_dt = datetime.strptime(start, '%Y-%m-%d %H')
+    end_dt = datetime.strptime(end, '%Y-%m-%d %H')
+    print(start_dt, end_dt)
+
     # measure execution time
     start_counter = perf_counter_ns()
 
     with open('2022_place_canvas_history.csv', 'r') as csvfile:
         csvreader = csv.reader(csvfile)
-        max_color = ['#000000', 0]
-        max_pixel = ['0,0', 0]
+        next(csvreader) # skip header
 
+        max_color = ('', 0)
+        max_pixel = ('', 0)
+
+        count = 0
         for row in csvreader:
+            row_time = datetime.strptime(row[0].split(' UTC')[0], '%Y-%m-%d %H:%M:%S.%f')
+            
+            # Skip rows outside the timeframe
+            if row_time < start_dt:
+                continue 
+
+            # Break if we are past the end time
+            if row_time > end_dt:
+                break
+
             color = row[2]
             pixel = row[3]
+            
+            # update frequencies of colors
+            if color in color_freq:
+                color_freq[color] += 1
+                if color_freq[color] > max_color[1]:
+                    max_color = (color, color_freq[color])
+            else:
+                color_freq[color] = 1
 
-            if start <= row[0] <= end:
-                # keep up a dict of frequencies of colors
-                if color in color_freq:
-                    color_freq[color] += 1
-                    if color_freq[color] > max_color[1]:
-                        max_color = (color, color_freq[color])
-                else:
-                    color_freq[color] = 1
+            # update frequencies of pixels
+            if pixel in pixel_freq:
+                pixel_freq[pixel] += 1
+                if pixel_freq[pixel] > max_pixel[1]:
+                    max_pixel = (pixel, pixel_freq[pixel])
+            else:
+                pixel_freq[pixel] = 1
 
-                # keep up a dict of frequencies of pixels
-                if pixel in pixel_freq:
-                    pixel_freq[pixel] += 1
-                    if pixel_freq[pixel] > max_pixel[1]:
-                        max_pixel = (pixel, pixel_freq[pixel])
-                else:
-                    pixel_freq[pixel] = 1
+    # max_color = max(color_freq, key=color_freq.get)
+    # max_pixel = max(pixel_freq, key=pixel_freq.get)
+    end_counter = perf_counter_ns()
 
-        end_counter = perf_counter_ns()
-
-        return max_color, max_pixel, end_counter - start_counter
+    return max_color, max_pixel, end_counter - start_counter
     
 
 '''
@@ -61,10 +79,14 @@ def analyze_data(start, end):
 '''
 
 if __name__ == '__main__':
+    if len(sys.argv) != 5:
+        print("Usage: python3 analyze.py YYYY-MM-DD HH YYYY-MM-DD HH")
+        sys.exit(1)
+
     start = sys.argv[1] + " " + sys.argv[2] # 2022-04-04 01
     end = sys.argv[3] + " " + sys.argv[4]
 
-    if start > end:
+    if start >= end:
         print("End hour must be after start hour")
         sys.exit(1)
     else:

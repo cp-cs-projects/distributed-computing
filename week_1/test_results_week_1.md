@@ -1,9 +1,9 @@
 # Week 1 Results
 ## 1-Hour Timeframe
-- **Timeframe:** 2022-04-01 12 to 2022-04-01 13
-- **Execution Time:** 150 ms
-- **Most Placed Color:** #FFFFFF
-- **Most Placed Pixel Location:** (200, 400)
+- **Timeframe:** 2022-04-01 00 to 2022-04-01 01
+- **Execution Time:** 0.288958 ms
+- **Most Placed Color:** #00CCC0
+- **Most Placed Pixel Location:** (1381,1677)
 ## 3-Hour Timeframe
 - **Timeframe:** 2022-04-01 12 to 2022-04-01 15
 - **Execution Time:** 452 ms

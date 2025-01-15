@@ -15,6 +15,19 @@ data example:
 ['2022-04-04 01:31:17.103 UTC', 'Zb8hND1l9t/YRUe3b6BuX2ZtpTS6yJzLpqI8/i2XYjnYZeVBTyaDUTHgwOXxfOMaslk++OSf9VS+g/NmaC253g==', '#000000', '1985,1674']
 
 '''
+def sort_csv():
+    with open('2022_place_canvas_history.csv', 'r') as csvfile:
+        csvreader = csv.reader(csvfile)
+        header = next(csvreader)
+        sortedlist = sorted(csvreader, key=lambda row: datetime.strptime(row[0][:-4].split(".")[0],'%Y-%m-%d %H:%M:%S'), reverse=False)
+    
+    with open('2022_place_canvas_history.csv', 'w', newline='') as f:
+        csvwriter = csv.writer(f)
+        csvwriter.writerow(header)
+        csvwriter.writerows(sortedlist)
+    
+    
+
 def analyze_data(start, end):
     color_freq = {}
     pixel_freq = {}
@@ -27,7 +40,6 @@ def analyze_data(start, end):
     start_counter = perf_counter_ns()
 
     with open('2022_place_canvas_history.csv', 'r') as csvfile:
-        count = 0 
         
         csvreader = csv.reader(csvfile)
         next(csvreader) # skip header
@@ -38,32 +50,25 @@ def analyze_data(start, end):
         for row in csvreader:
             row_time = datetime.strptime(row[0][:-4].split(".")[0],'%Y-%m-%d %H:%M:%S')
             
-            # Skip rows outside the timeframe
-            if row_time < start_dt:
-                continue 
-
-            # Break if we are past the end time
-            if row_time > end_dt:
-                break
-
             color = row[2]
             pixel = row[3]
             
-            # update frequencies of colors
-            if color in color_freq:
-                color_freq[color] += 1
-                if color_freq[color] > max_color[1]:
-                    max_color = (color, color_freq[color])
-            else:
-                color_freq[color] = 1
+            if start_dt <= row_time < end_dt:
+                # update frequencies of colors
+                if color in color_freq:
+                    color_freq[color] += 1
+                    if color_freq[color] > max_color[1]:
+                        max_color = (color, color_freq[color])
+                else:
+                    color_freq[color] = 1
 
-            # update frequencies of pixels
-            if pixel in pixel_freq:
-                pixel_freq[pixel] += 1
-                if pixel_freq[pixel] > max_pixel[1]:
-                    max_pixel = (pixel, pixel_freq[pixel])
-            else:
-                pixel_freq[pixel] = 1
+                # update frequencies of pixels
+                if pixel in pixel_freq:
+                    pixel_freq[pixel] += 1
+                    if pixel_freq[pixel] > max_pixel[1]:
+                        max_pixel = (pixel, pixel_freq[pixel])
+                else:
+                    pixel_freq[pixel] = 1
 
     # max_color = max(color_freq, key=color_freq.get)
     # max_pixel = max(pixel_freq, key=pixel_freq.get)
@@ -80,6 +85,8 @@ def analyze_data(start, end):
 '''
 
 if __name__ == '__main__':
+    # sort_csv()
+
     if len(sys.argv) != 5:
         print("Usage: python3 analyze.py YYYY-MM-DD HH YYYY-MM-DD HH")
         sys.exit(1)
@@ -97,3 +104,18 @@ if __name__ == '__main__':
         print(f"Most placed pixel: {max_pixel}")
         
     # direct comps work - print('2022-04-04 01:35:54.071 UTC' < '2022-04-04 01:35:55.263 UTC')
+
+    '''
+    bottlenecks:
+    * time complexity
+    * CPU
+    * memory
+    * I/O
+    * storage
+
+    storing csv in sql lite and indexing
+
+    #1 optimization =
+    * not read as much data off the disk
+    * precomputing the most placed color and pixel per hour group.
+    '''

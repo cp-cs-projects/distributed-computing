@@ -1,16 +1,69 @@
-import pandas as pd
+import pyarrow.csv as pv
+import pyarrow.parquet as pq
+import pyarrow as pa
+import polars as pl
 
-csv_path = './2022_place_canvas_history.csv'
-parquet_path = './2022_place_canvas_history.parquet'
-parquet_file = None
+csv_file = "/Users/srirocks2020/Cal_Poly/csc-369/2022_place_canvas_history.csv"
+parquet_file = "/Users/srirocks2020/Cal_Poly/csc-369/distributed-computing/week_2/2022_pyarrow.parquet"
 
-for chunk in pd.read_csv(csv_path, chunksize=100000):
-    # Convert the timestamp column to datetime format
-    chunk['timestamp'] = pd.to_datetime(chunk['timestamp'], format='mixed')
+DATESTRING_FORMAT = "%Y-%m-%d %H:%M:%S"
+BLOCK_SIZE = 100_000_000
 
-    if not parquet_file:
-        parquet_file = chunk.to_parquet(parquet_path, engine="pyarrow", compression='snappy', index=False)
-    else:
-        chunk.to_parquet(parquet_path, append=True, engine="pyarrow", compression='snappy', index=False)
+read_options = pv.ReadOptions(block_size=BLOCK_SIZE)
+csv_reader = pv.open_csv(csv_file, read_options=read_options)
 
-print(f"CSV converted to Parquet at {parquet_path}")
+parquet_writer = None
+
+try:
+    for record_batch in csv_reader:
+        print(f"Processing batch with {record_batch.num_rows} rows...")
+
+        df = pl.from_arrow(record_batch)
+
+        df = df.with_columns(
+            pl.col("timestamp")
+            .str.replace(r" UTC$", "")  
+            .str.strptime(
+                pl.Datetime, 
+                format="%Y-%m-%d %H:%M:%S%.f",
+                strict=False
+            )
+            .alias("timestamp")
+        )
+
+        # df = (
+        #     df.filter(
+        #         pl.col("coordinate").str.count_matches(",") == 1
+        #     )
+        #     .with_columns(
+        #         pl.col("coordinate")
+        #         .str.split_exact(",", 1)
+        #         .struct.field("field_0")
+        #         .cast(pl.Int64)
+        #         .alias("x"),
+        #         pl.col("coordinate")
+        #         .str.split_exact(",", 1)
+        #         .struct.field("field_1")
+        #         .cast(pl.Int64)
+        #         .alias("y"),
+        #     )
+        #     .drop("coordinate")
+        #     )
+
+        df = df.drop("user_id")
+
+        table = df.to_arrow()
+
+        if parquet_writer is None:
+            parquet_writer = pq.ParquetWriter(
+                parquet_file, 
+                schema=table.schema, 
+                compression="zstd"
+            )
+        parquet_writer.write_table(table)
+
+finally:
+    if parquet_writer:
+        parquet_writer.close()
+
+print(f"Successfully converted {csv_file} to {parquet_file}")

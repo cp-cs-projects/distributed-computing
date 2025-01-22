@@ -1,6 +1,5 @@
 import sys
 import pandas as pd
-import csv
 from time import perf_counter_ns
 from datetime import datetime
 
@@ -15,22 +14,19 @@ data example:
 
 def pandas_analyze_data(start, end):
 
-    start_dt = pd.to_datetime(start).tz_localize("UTC")
-    end_dt = pd.to_datetime(end).tz_localize("UTC")
+    start_dt = datetime.strptime(start, '%Y-%m-%d %H')
+    end_dt = datetime.strptime(end, '%Y-%m-%d %H')
     print(start_dt, end_dt)
 
     start_counter = perf_counter_ns()
 
-    df = pd.read_csv('/Users/srirocks2020/Cal_Poly/csc-369/2022_place_canvas_history.csv')
-    df['timestamp'] = pd.to_datetime(df['timestamp'], format='mixed')
+    df = pd.read_parquet('/Users/srirocks2020/Cal_Poly/csc-369/distributed-computing/week_2/2022_pyarrow.parquet')
+    
     filtered_data = df[(df['timestamp'] >= start_dt) & (df['timestamp'] < end_dt)]
-
-    # color and pixels with highest value counts
-    max_color = filtered_data['pixel_color'].value_counts().idxmax()
-    max_pixel = filtered_data['coordinate'].value_counts().idxmax()
+    max_color = filtered_data["pixel_color"].mode()
+    max_pixel = filtered_data["coordinate"].mode()
     
     end_counter = perf_counter_ns()
-
     return max_color, max_pixel, end_counter - start_counter
     
 

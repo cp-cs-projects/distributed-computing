@@ -1,4 +1,4 @@
-# Pandas and Parquet File Results
+# DuckDB and Parquet File Results
 
 ## 1-Hour Timeframe
 

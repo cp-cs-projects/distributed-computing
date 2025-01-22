@@ -1,4 +1,5 @@
 import sys
+import pandas as pd
 import csv
 from time import perf_counter_ns
 from datetime import datetime
@@ -8,6 +9,7 @@ from datetime import datetime
 - start and end hrs as CLI arguments, YYYY-MM-DD HH, validate end hour is after start
 
 data example:
+['timestamp', 'user_id', 'pixel_color', 'coordinate']
 ['2022-04-04 01:31:15.044 UTC', 'D23Fyt66c0/bremR1gMZYfxiSSH10/jlFKilZjZJVtCPL+okOejfsERw3ccyVgjQhlPJzKoxc05QyJ2jFm1btA==', '#000000', '810,198']
 ['2022-04-04 01:31:15.728 UTC', 'owEzYWLgsOiIq3WO7iLU8ixeKVRr7OPsrENPaTRB8XZT9r6bDnMbl8ls07xddiI3a3lEq6C3I40qSbZD5GYL3g==', '#000000', '1544,1664']
 ['2022-04-04 01:31:16.241 UTC', 'yT72l6ID1dUsDPY2igb5X9e2FgpQFdLHjx51twkkkN/+nrb+ZNmSQ/9zS5/M6SQjcw9+QZIYVXfghjH/60f6Yg==', '#000000', '1784,1361']
@@ -15,20 +17,10 @@ data example:
 ['2022-04-04 01:31:17.103 UTC', 'Zb8hND1l9t/YRUe3b6BuX2ZtpTS6yJzLpqI8/i2XYjnYZeVBTyaDUTHgwOXxfOMaslk++OSf9VS+g/NmaC253g==', '#000000', '1985,1674']
 
 '''
-def sort_csv():
-    with open('2022_place_canvas_history.csv', 'r') as csvfile:
-        csvreader = csv.reader(csvfile)
-        header = next(csvreader)
-        sortedlist = sorted(csvreader, key=lambda row: datetime.strptime(row[0][:-4].split(".")[0],'%Y-%m-%d %H:%M:%S'), reverse=False)
-    
-    with open('2022_place_canvas_history.csv', 'w', newline='') as f:
-        csvwriter = csv.writer(f)
-        csvwriter.writerow(header)
-        csvwriter.writerows(sortedlist)
-    
-    
+
 
 def analyze_data(start, end):
+
     color_freq = {}
     pixel_freq = {}
 
@@ -39,7 +31,7 @@ def analyze_data(start, end):
     # measure execution time
     start_counter = perf_counter_ns()
 
-    with open('2022_place_canvas_history.csv', 'r') as csvfile:
+    with open('/Users/srirocks2020/Cal_Poly/csc-369/2022_place_canvas_history.csv', 'r') as csvfile:
         
         csvreader = csv.reader(csvfile)
         next(csvreader) # skip header
@@ -70,8 +62,6 @@ def analyze_data(start, end):
                 else:
                     pixel_freq[pixel] = 1
 
-    # max_color = max(color_freq, key=color_freq.get)
-    # max_pixel = max(pixel_freq, key=pixel_freq.get)
     end_counter = perf_counter_ns()
 
     return max_color, max_pixel, end_counter - start_counter
@@ -85,7 +75,6 @@ def analyze_data(start, end):
 '''
 
 if __name__ == '__main__':
-    # sort_csv()
 
     if len(sys.argv) != 5:
         print("Usage: python3 analyze.py YYYY-MM-DD HH YYYY-MM-DD HH")
@@ -103,19 +92,3 @@ if __name__ == '__main__':
         print(f"Most placed color: {max_color}")
         print(f"Most placed pixel: {max_pixel}")
         
-    # direct comps work - print('2022-04-04 01:35:54.071 UTC' < '2022-04-04 01:35:55.263 UTC')
-
-    '''
-    bottlenecks:
-    * time complexity
-    * CPU
-    * memory
-    * I/O
-    * storage
-
-    storing csv in sql lite and indexing
-
-    #1 optimization =
-    * not read as much data off the disk
-    * precomputing the most placed color and pixel per hour group.
-    '''

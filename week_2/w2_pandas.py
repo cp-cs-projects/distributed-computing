@@ -20,7 +20,7 @@ def pandas_analyze_data(start, end):
 
     start_counter = perf_counter_ns()
 
-    df = pd.read_parquet('/Users/srirocks2020/Cal_Poly/csc-369/distributed-computing/week_2/2022_pyarrow.parquet')
+    df = pd.read_parquet('2022_pyarrow.parquet')
     
     filtered_data = df[(df['timestamp'] >= start_dt) & (df['timestamp'] < end_dt)]
     max_color = filtered_data["pixel_color"].mode()

@@ -3,8 +3,8 @@ import pyarrow.parquet as pq
 import pyarrow as pa
 import polars as pl
 
-csv_file = "/Users/srirocks2020/Cal_Poly/csc-369/2022_place_canvas_history.csv"
-parquet_file = "/Users/srirocks2020/Cal_Poly/csc-369/distributed-computing/week_2/2022_pyarrow.parquet"
+csv_file = "./2022_place_canvas_history.csv"
+parquet_file = "./2022_pyarrow.parquet"
 
 DATESTRING_FORMAT = "%Y-%m-%d %H:%M:%S"
 BLOCK_SIZE = 100_000_000

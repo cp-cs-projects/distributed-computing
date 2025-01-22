@@ -15,7 +15,7 @@ def duckdb_analyze_data(start, end):
 
     get_max_color = f"""
         SELECT pixel_color
-        FROM '/Users/srirocks2020/Cal_Poly/csc-369/distributed-computing/week_2/2022_pyarrow.parquet'
+        FROM './2022_pyarrow.parquet'
         WHERE timestamp >= '{start_dt}' 
           AND timestamp < '{end_dt}'
         GROUP BY pixel_color
@@ -25,7 +25,7 @@ def duckdb_analyze_data(start, end):
 
     get_max_pixel = f"""
         SELECT coordinate
-        FROM '/Users/srirocks2020/Cal_Poly/csc-369/distributed-computing/week_2/2022_pyarrow.parquet'
+        FROM './2022_pyarrow.parquet'
         WHERE timestamp >= '{start_dt}'
           AND timestamp < '{end_dt}'
         GROUP BY coordinate

@@ -20,7 +20,7 @@ def pandas_analyze_data(start, end):
 
     start_counter = perf_counter_ns()
 
-    df = pl.read_parquet('/Users/srirocks2020/Cal_Poly/csc-369/distributed-computing/week_2/2022_pyarrow.parquet')
+    df = pl.read_parquet('2022_pyarrow.parquet')
     
     filtered_data = df.filter(
         (pl.col("timestamp") >= start_dt) &

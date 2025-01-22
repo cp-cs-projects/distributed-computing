@@ -1,4 +1,4 @@
-# DuckDB and Parquet File Results
+# DuckDB and Parquet File Results - FASTEST
 
 ## 1-Hour Timeframe
 

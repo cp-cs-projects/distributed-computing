@@ -1,10 +1,9 @@
 import sys
-import pandas as pd
 import csv
 from time import perf_counter_ns
 from datetime import datetime
 
-'''
+"""
 - analyze (start, end) : most placed color , most placed pixel location
 - start and end hrs as CLI arguments, YYYY-MM-DD HH, validate end hour is after start
 
@@ -16,7 +15,7 @@ data example:
 ['2022-04-04 01:31:16.328 UTC', '4U1+gnHu6F6TwVpntpZgnYsb3QSs2H77v+ae34FFiIqGHWIMv8ZZEkaQ3lmla+491WBoI7mdM/bvcdlu4jyQ8Q==', '#000000', '29,137']
 ['2022-04-04 01:31:17.103 UTC', 'Zb8hND1l9t/YRUe3b6BuX2ZtpTS6yJzLpqI8/i2XYjnYZeVBTyaDUTHgwOXxfOMaslk++OSf9VS+g/NmaC253g==', '#000000', '1985,1674']
 
-'''
+"""
 
 
 def analyze_data(start, end):
@@ -24,27 +23,29 @@ def analyze_data(start, end):
     color_freq = {}
     pixel_freq = {}
 
-    start_dt = datetime.strptime(start, '%Y-%m-%d %H')
-    end_dt = datetime.strptime(end, '%Y-%m-%d %H')
+    start_dt = datetime.strptime(start, "%Y-%m-%d %H")
+    end_dt = datetime.strptime(end, "%Y-%m-%d %H")
     print(start_dt, end_dt)
 
     # measure execution time
     start_counter = perf_counter_ns()
 
-    with open('/Users/srirocks2020/Cal_Poly/csc-369/2022_place_canvas_history.csv', 'r') as csvfile:
-        
-        csvreader = csv.reader(csvfile)
-        next(csvreader) # skip header
+    with open(
+        "/Users/srirocks2020/Cal_Poly/csc-369/2022_place_canvas_history.csv", "r"
+    ) as csvfile:
 
-        max_color = ('', 0)
-        max_pixel = ('', 0)
+        csvreader = csv.reader(csvfile)
+        next(csvreader)  # skip header
+
+        max_color = ("", 0)
+        max_pixel = ("", 0)
 
         for row in csvreader:
-            row_time = datetime.strptime(row[0][:-4].split(".")[0],'%Y-%m-%d %H:%M:%S')
-            
+            row_time = datetime.strptime(row[0][:-4].split(".")[0], "%Y-%m-%d %H:%M:%S")
+
             color = row[2]
             pixel = row[3]
-            
+
             if start_dt <= row_time < end_dt:
                 # update frequencies of colors
                 if color in color_freq:
@@ -65,22 +66,22 @@ def analyze_data(start, end):
     end_counter = perf_counter_ns()
 
     return max_color, max_pixel, end_counter - start_counter
-    
 
-'''
+
+"""
     in test_results_week_1.md, doc the results with timeframes
     * selected timeframe
     * millisecs to compute results
     * output
-'''
+"""
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     if len(sys.argv) != 5:
         print("Usage: python3 analyze.py YYYY-MM-DD HH YYYY-MM-DD HH")
         sys.exit(1)
 
-    start = sys.argv[1] + " " + sys.argv[2] # 2022-04-04 01
+    start = sys.argv[1] + " " + sys.argv[2]  # 2022-04-04 01
     end = sys.argv[3] + " " + sys.argv[4]
 
     if start >= end:
@@ -91,4 +92,3 @@ if __name__ == '__main__':
         print(f"Time elapsed: {time_elapsed} ns")
         print(f"Most placed color: {max_color}")
         print(f"Most placed pixel: {max_pixel}")
-        

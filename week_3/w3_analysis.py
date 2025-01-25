@@ -38,13 +38,34 @@ def avg_session_length(start, end):
     """
 
 
-def pixel_placements(start, end):
+def pixel_placements(conn, start, end):
     """
     50th, 75th, 90th, and 99th percentiles of num pixels
+    1. get counts per user_id within timestamp
+    2. calculate percentiles ordered by count
     """
 
+    user_counts = f"""
+        with user_counts AS
+        (
+            SELECT user_id, COUNT(*) AS pixels_counted
+            FROM './2022_pyarrow.parquet'
+            WHERE timestamp >= '{start}'
+                AND timestamp < '{end}'
+            GROUP BY user_id
+        )
+        SELECT
+            PERCENTILE_CONT(0.50) WITHIN GROUP(ORDER BY pixels_counted) AS median,
+            PERCENTILE_CONT(0.75) WITHIN GROUP(ORDER BY pixels_counted) AS p75,
+            PERCENTILE_CONT(0.95) WITHIN GROUP(ORDER BY pixels_counted) AS p95,
+            PERCENTILE_CONT(0.99) WITHIN GROUP(ORDER BY pixels_counted) AS p99
+        FROM
+            user_counts
+        """
     
+    return conn.execute(user_counts).fetchall()
 
+  
 
 def count_first_time_users(conn, start, end):
     """
@@ -87,5 +108,7 @@ if __name__ == "__main__":
         conn = duckdb.connect()
         print("ranking:")
         ranked_colors = rank_colors(conn, start_dt, end_dt)
+        print("\n percentiles of pixels placed: ", pixel_placements(conn, start_dt, end_dt))
         print("\n # first time users: ", count_first_time_users(conn, start_dt, end_dt),"\n")
         end_counter = perf_counter_ns()
+

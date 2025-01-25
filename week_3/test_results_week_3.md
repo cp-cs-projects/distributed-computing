@@ -32,10 +32,10 @@
 ### Percentiles of Pixels Placed
 
 - **Output:**
-  - 50th Percentile: 3 pixels
-  - 75th Percentile: 7 pixels
-  - 90th Percentile: 12 pixels
-  - 99th Percentile: 20 pixels
+  - 50th Percentile: 2 pixels
+  - 75th Percentile: 4 pixels
+  - 90th Percentile: 18 pixels
+  - 99th Percentile: 33 pixels
 
 ### Count of First-Time Users
 

@@ -8,10 +8,22 @@
 ### Ranking of Colors by Distinct Users
 
 - **Top **
-  1. Black: 152 users
-  2. Red: 120 users
-  3. Blue: 98 users
-     etc.
+1. black : 412124 users
+2. orangered : 299003 users
+3. white : 270212 users
+4. #2450A4 : 244148 users
+5. #FFD635 : 201025 users
+6. #51E9F4 : 117115 users
+7. #FF99AA : 116719 users
+8. #7EED56 : 102042 users
+9. #00A368 : 95611 users
+10. #811E9F : 77678 users
+11. #FFA800 : 77006 users
+12. #3690EA : 69604 users
+13. #D4D7D9 : 38707 users
+14. #898D90 : 37128 users
+15. #9C6926 : 30551 users
+16. #B44AC0 : 29539 users
 
 ### Average Session Length
 
@@ -27,7 +39,7 @@
 
 ### Count of First-Time Users
 
-- **Output:** 350 users
+- **Output:** 1062699
 
 ### Runtime
 

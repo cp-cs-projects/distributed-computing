@@ -30,12 +30,46 @@ def rank_colors(conn, start, end):
     
 
 
-def avg_session_length(start, end):
+def avg_session_length(conn, start, end):
     """
     session = user activity within 15-min window of inactivity
     return average session length in seconds in timeframe,
     only incl. cases where a user had more than 1 pixel placement in timeframe
+
+    within timeframe:
+    - find users with 1+ event in frame
+    - order user events by timestamp to identify when new session occurs
+    - get session start and end times, number events in session, session length
+    - exclude users with only one event
+    - compute avg session length
     """
+
+    session_length = f"""
+        WITH sessions AS (
+            SELECT user_id, timestamp, 
+                LAG(timestamp) OVER (PARTITION BY user_id ORDER BY timestamp) AS prev_timestamp
+            FROM './2022_pyarrow.parquet'
+            WHERE timestamp >= '{start}' AND timestamp < '{end}'
+        ), 
+        lengths AS (
+            SELECT user_id,
+                EXTRACT(EPOCH FROM (timestamp - prev_timestamp)) as session_length
+            FROM sessions
+            WHERE EXTRACT(EPOCH FROM (timestamp - prev_timestamp)) <= 900
+        ),
+        valid_users AS (
+            SELECT user_id
+            FROM lengths
+            GROUP BY user_id
+            HAVING COUNT(*) > 1
+        )
+        SELECT 
+            AVG(session_length) AS avg_session_length
+        FROM lengths l
+        JOIN valid_users v ON l.user_id = v.user_id
+    """
+
+    return conn.execute(session_length).fetchone()
 
 
 def pixel_placements(conn, start, end):
@@ -108,7 +142,9 @@ if __name__ == "__main__":
         conn = duckdb.connect()
         print("ranking:")
         ranked_colors = rank_colors(conn, start_dt, end_dt)
+        print("\n # average session length: ", avg_session_length(conn, start_dt, end_dt))
         print("\n percentiles of pixels placed: ", pixel_placements(conn, start_dt, end_dt))
-        print("\n # first time users: ", count_first_time_users(conn, start_dt, end_dt),"\n")
+        print("\n # first time users: ", count_first_time_users(conn, start_dt, end_dt))
         end_counter = perf_counter_ns()
+        print("\n time elapsed: ", end_counter - start_counter, "ns")
 

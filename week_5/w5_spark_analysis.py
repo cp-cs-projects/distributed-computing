@@ -1,9 +1,14 @@
+import pyspark
+from pyspark import SparkConf
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, lit, countDistinct, count, expr, to_date, hour
 from time import perf_counter_ns
 
-# Initialize Spark session with a security manager enabled
-spark = SparkSession.builder.appName("CanadaAnalysis").getOrCreate()
+
+spark = SparkSession.builder \
+    .appName("CanadaAnalysis") \
+    .config("spark.driver.extraJavaOptions", "-Djava.security.manager=allow") \
+    .getOrCreate()
 
 def percent_users():
     df = spark.read.parquet("../2022xy_pyarrow.parquet")
@@ -36,7 +41,7 @@ def top_times():
 
 if __name__ == "__main__":
     start_counter = perf_counter_ns()
-    print("num users | percent of r/place users:", percent_users())
+    print(percent_users())
     print("\ntop colors for Canada:", top_canada_colors())
     print("top times:", top_times())
     end_counter = perf_counter_ns()

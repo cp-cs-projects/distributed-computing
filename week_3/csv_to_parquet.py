@@ -46,20 +46,39 @@ try:
             .alias("user_id"))
 
                     
-        df = df.filter(pl.col("coordinate").str.count_matches(",") == 1).with_columns(
-            pl.concat_list(
-                [
-                    pl.col("coordinate")
-                    .str.split_exact(",", 1)
-                    .struct.field("field_0")
-                    .cast(pl.Int64),
-                    pl.col("coordinate")
-                    .str.split_exact(",", 1)
-                    .struct.field("field_1")
-                    .cast(pl.Int64),
-                ]
-            ).alias("coordinate")
-        )
+        # df = df.filter(pl.col("coordinate").str.count_matches(",") == 1).with_columns(
+        #     pl.concat_list(
+        #         [
+        #             pl.col("coordinate")
+        #             .str.split_exact(",", 1)
+        #             .struct.field("field_0")
+        #             .cast(pl.Int64),
+        #             pl.col("coordinate")
+        #             .str.split_exact(",", 1)
+        #             .struct.field("field_1")
+        #             .cast(pl.Int64),
+        #         ]
+        #     ).alias("coordinate")
+        # )
+
+        df = (
+            df.filter(
+                pl.col("coordinate").str.count_matches(",") == 1
+            )
+            .with_columns(
+                pl.col("coordinate")
+                .str.split_exact(",", 1)
+                .struct.field("field_0")
+                .cast(pl.Int64)
+                .alias("x"),
+                pl.col("coordinate")
+                .str.split_exact(",", 1)
+                .struct.field("field_1")
+                .cast(pl.Int64)
+                .alias("y"),
+            )
+            .drop("coordinate")
+          )
 
         table = df.to_arrow()
 

@@ -11,11 +11,11 @@
 
 ## option 2 - 100 million+ steam reviews
 
-1. What question are you trying to answer? Which games have the most positive reviews over time and which have the most variance in ratings over time?
+1. What question are you trying to answer? Which games have the most positive reviews, which have the most negative, and which have the most variance in ratings over time?
 
 2. Why is this question worth answering? This can be either because it has some personal value to you or because it is a question that others are asking. If it is a question others are asking, then provide an example.
    This would be important to showcase player satisfaction levels across game types, and what could cause player sentiment to decline.
 
-3. What is your hypothesis? Why leads you towards that hypothesis? Story driven games would likely have higher community involvement and thus more positive reviews. Also, games with frequent updates will likely have positive reviews, whereas games with poor support or controversial updates may experience the highest variance in reviews.
+3. What is your hypothesis? Why leads you towards that hypothesis? From my own gaming experience, Story driven games lead to higher investment, and more community involvement. I would expect those games with multiple releases to have most positive reviews. I think certain multiplayer games could have more negative reviews due to issues with player interactions. Also, games with frequent updates will likely have positive reviews, whereas games with poor support or controversial updates may experience the highest variance in reviews.
 
 4. [100 million+ steam reviews](https://www.kaggle.com/datasets/kieranpoc/steam-reviews)

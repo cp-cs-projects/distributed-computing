@@ -57,7 +57,6 @@ def highest_avg_felt_temp():
 def highest_avg_diff():
     connection = duckdb.connect()
 
-    # Calculate highest differences in apparent temperature and actual temperature
     query = """
         WITH avg_temp_2010 AS (
             SELECT city, AVG(temperature_2m) AS avg_temp_2010, lat, lng
@@ -191,57 +190,5 @@ def city_vs_surroundings():
         print(r)
     return rows
 
-
-
-
+# wrote diff function calls 
 visualize.map_data(city_vs_surroundings())
-
-    # WITH daily_temps_2010 AS (
-    #         SELECT 
-    #             city, lat, lng, 
-    #             DAY(date) AS day, 
-    #             MAX(temperature_2m) AS daily_max,
-    #             MIN(temperature_2m) AS daily_min
-    #         FROM './india_weather.parquet'
-    #         WHERE YEAR(date) = 2010
-    #         GROUP BY city, lat, lng, day
-    #     ),
-    #     dtr_2010 AS (
-    #         SELECT 
-    #             city, lat, lng, 
-    #             AVG(daily_max) AS avg_max_2010,
-    #             AVG(daily_min) AS avg_min_2010,
-    #             AVG(daily_max) - AVG(daily_min) AS dtr_2010
-    #         FROM daily_temps_2010
-    #         GROUP BY city, lat, lng
-    #     ),
-    #     daily_temps_2024 AS (
-    #         SELECT 
-    #             city, lat, lng, 
-    #             DAY(date) AS day, 
-    #             MAX(temperature_2m) AS daily_max,
-    #             MIN(temperature_2m) AS daily_min
-    #         FROM './india_weather.parquet'
-    #         WHERE YEAR(date) = 2024
-    #         GROUP BY city, lat, lng, day
-    #     ),
-    #     dtr_2024 AS (
-    #         SELECT 
-    #             city, lat, lng, 
-    #             AVG(daily_max) AS avg_max_2024,
-    #             AVG(daily_min) AS avg_min_2024,
-    #             AVG(daily_max) - AVG(daily_min) AS dtr_2024
-    #         FROM daily_temps_2024
-    #         GROUP BY city, lat, lng
-    #     )
-    #     SELECT 
-    #         t2010.city, 
-    #         (t2024.dtr_2024 - t2010.dtr_2010) AS dtr_difference,
-    #         t2010.lat, 
-    #         t2010.lng,
-    #     FROM dtr_2010 t2010
-    #     JOIN dtr_2024 t2024 ON t2010.city = t2024.city
-    #     ORDER BY dtr_difference DESC
-    #     LIMIT 10;
-
-    

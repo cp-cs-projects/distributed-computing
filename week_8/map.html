@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_0fd3b44c4a5e4243fadd7ce086128e2c {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_0fd3b44c4a5e4243fadd7ce086128e2c" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_0fd3b44c4a5e4243fadd7ce086128e2c = L.map(
+                "map_0fd3b44c4a5e4243fadd7ce086128e2c",
+                {
+                    center: [20.5937, 78.9629],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_7d62541a29b9b86ea236a9b8546a645d = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_7d62541a29b9b86ea236a9b8546a645d.addTo(map_0fd3b44c4a5e4243fadd7ce086128e2c);
+        
+    
+            var marker_8ca98ebfa48c1e4212f555806e0bdc87 = L.marker(
+                [23.223, 72.65],
+                {
+}
+            ).addTo(map_0fd3b44c4a5e4243fadd7ce086128e2c);
+        
+    
+        var popup_9213da3bc2101ee61c95c0cce03d2001 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ad4d8f3236e738b84d92b70447edd8c3 = $(`<div id="html_ad4d8f3236e738b84d92b70447edd8c3" style="width: 100.0%; height: 100.0%;">Ghandinagar: 21.016506713471916°C</div>`)[0];
+                popup_9213da3bc2101ee61c95c0cce03d2001.setContent(html_ad4d8f3236e738b84d92b70447edd8c3);
+            
+        
+
+        marker_8ca98ebfa48c1e4212f555806e0bdc87.bindPopup(popup_9213da3bc2101ee61c95c0cce03d2001)
+        ;
+
+        
+    
+    
+            marker_8ca98ebfa48c1e4212f555806e0bdc87.bindTooltip(
+                `<div>
+                     Ghandinagar
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_22ca0f15eff4f9dc2b8c73a98e2851a1 = L.marker(
+                [23.17, 72.58],
+                {
+}
+            ).addTo(map_0fd3b44c4a5e4243fadd7ce086128e2c);
+        
+    
+        var popup_f972a927b32cf23a2dadd04f4b9f569c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_606b9c5b7eeb68edae075ff515cb33c0 = $(`<div id="html_606b9c5b7eeb68edae075ff515cb33c0" style="width: 100.0%; height: 100.0%;">Adalaj: 21.294897783743707°C</div>`)[0];
+                popup_f972a927b32cf23a2dadd04f4b9f569c.setContent(html_606b9c5b7eeb68edae075ff515cb33c0);
+            
+        
+
+        marker_22ca0f15eff4f9dc2b8c73a98e2851a1.bindPopup(popup_f972a927b32cf23a2dadd04f4b9f569c)
+        ;
+
+        
+    
+    
+            marker_22ca0f15eff4f9dc2b8c73a98e2851a1.bindTooltip(
+                `<div>
+                     Adalaj
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_3e4adab207f6d2392067d31a2629d6e0 = L.marker(
+                [23.03, 72.58],
+                {
+}
+            ).addTo(map_0fd3b44c4a5e4243fadd7ce086128e2c);
+        
+    
+        var popup_20003db12b32fd76c65e394a03e2480f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_43f23a5f72e7d50358ef34435f449471 = $(`<div id="html_43f23a5f72e7d50358ef34435f449471" style="width: 100.0%; height: 100.0%;">Ahmedabad: 21.614296779820794°C</div>`)[0];
+                popup_20003db12b32fd76c65e394a03e2480f.setContent(html_43f23a5f72e7d50358ef34435f449471);
+            
+        
+
+        marker_3e4adab207f6d2392067d31a2629d6e0.bindPopup(popup_20003db12b32fd76c65e394a03e2480f)
+        ;
+
+        
+    
+    
+            marker_3e4adab207f6d2392067d31a2629d6e0.bindTooltip(
+                `<div>
+                     Ahmedabad
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_56fdc2c7f2e0580230f011948d0f5a08 = L.marker(
+                [22.72, 72.47],
+                {
+}
+            ).addTo(map_0fd3b44c4a5e4243fadd7ce086128e2c);
+        
+    
+        var popup_8795c8c869af5e0667f10566fb96862e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9a74582669d2ca9b7cc61a642134d52c = $(`<div id="html_9a74582669d2ca9b7cc61a642134d52c" style="width: 100.0%; height: 100.0%;">Dholka: 21.709378495812416°C</div>`)[0];
+                popup_8795c8c869af5e0667f10566fb96862e.setContent(html_9a74582669d2ca9b7cc61a642134d52c);
+            
+        
+
+        marker_56fdc2c7f2e0580230f011948d0f5a08.bindPopup(popup_8795c8c869af5e0667f10566fb96862e)
+        ;
+
+        
+    
+    
+            marker_56fdc2c7f2e0580230f011948d0f5a08.bindTooltip(
+                `<div>
+                     Dholka
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var marker_6a8c7a1629c09607472158f0b621edf7 = L.marker(
+                [22.556, 72.951],
+                {
+}
+            ).addTo(map_0fd3b44c4a5e4243fadd7ce086128e2c);
+        
+    
+        var popup_dc5c40acab8a55c6a91cbf4b100fbeaf = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8be707410a793ba2d5f3000d968a0c67 = $(`<div id="html_8be707410a793ba2d5f3000d968a0c67" style="width: 100.0%; height: 100.0%;">Anand: 21.91771512204095°C</div>`)[0];
+                popup_dc5c40acab8a55c6a91cbf4b100fbeaf.setContent(html_8be707410a793ba2d5f3000d968a0c67);
+            
+        
+
+        marker_6a8c7a1629c09607472158f0b621edf7.bindPopup(popup_dc5c40acab8a55c6a91cbf4b100fbeaf)
+        ;
+
+        
+    
+    
+            marker_6a8c7a1629c09607472158f0b621edf7.bindTooltip(
+                `<div>
+                     Anand
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+</script>
+</html>
